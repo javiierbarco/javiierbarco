@@ -27,3 +27,5 @@ Mi nombre es **Javier Barco**, estudiante de Ingeniería de Sistemas en la Unive
 
 ### 📫 Contacto:
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/javiierbarco)
+
+![Javiier's GitHub stats](https://github-readme-stats.vercel.app/api?username=javiierbarco&show_icons=true&theme=dark)

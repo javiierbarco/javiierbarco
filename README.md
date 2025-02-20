@@ -57,7 +57,7 @@ Mi experiencia se centra en el **desarrollo de software, redes y arquitectura de
 ---
 
 ### 📫 Contacto:
-📩 **Email:** [TuCorreo@ejemplo.com](mailto:TuCorreo@ejemplo.com)  
+📩 **Email:** [wbarco@unal.edu.co](mailto:wbarco@unal.edu.co)  
 🌍 **LinkedIn:** [LinkedIn/JaviierBarco](https://www.linkedin.com/in/javiierbarco)  
 
 ---

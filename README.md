@@ -1,5 +1,3 @@
-# Hola 👋
-
 ### 🚀 Sobre mí:
 Mi nombre es **Javier Barco**, estudiante de Ingeniería de Sistemas en la Universidad Nacional y Tecnólogo en Sistemas y Redes.  
 💻 Apasionado por la programación, el desarrollo de software y el emprendimiento.  

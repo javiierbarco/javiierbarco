@@ -60,8 +60,12 @@ Mi experiencia se centra en el **desarrollo de software, redes y arquitectura de
 📩 **Email:** [wbarco@unal.edu.co](mailto:wbarco@unal.edu.co)  
 🌍 **LinkedIn:** [LinkedIn/JaviierBarco](https://www.linkedin.com/in/javiierbarco)  
 
-## 🎮 Juega a mi versión de Pac-Man 🕹️  
-Haz clic aquí para jugar: [🔗 Jugar ahora](https://javiierbarco.github.io/)
+## 🚀 Galaxy Shooter - Juega aquí 🎮
+
+Mueve la nave con **← y →** | Dispara con **ESPACIO**
+
+<iframe src="https://javiierbarco.github.io/" width="600" height="400"></iframe>
+
 ---
 
 🚀 ¡Gracias por visitar mi perfil! Si quieres colaborar en algún proyecto o compartir ideas, **contáctame**.  

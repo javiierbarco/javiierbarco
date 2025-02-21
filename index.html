@@ -3,78 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pac-Man Simple</title>
+    <title>Galaxy Shooter 🚀</title>
     <style>
-        canvas {
-            background-color: black;
-            display: block;
-            margin: auto;
-        }
+        body { margin: 0; overflow: hidden; background-color: black; text-align: center; color: white; }
+        canvas { display: block; margin: auto; background: black; }
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <h1>🚀 Galaxy Shooter - Dispara y sobrevive!</h1>
+    <canvas id="gameCanvas"></canvas>
+    <p>Mueve la nave con ← y → | Dispara con ESPACIO</p>
+
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
+        canvas.width = 600;
+        canvas.height = 400;
 
-        const tileSize = 20;
-        const cols = canvas.width / tileSize;
-        const rows = canvas.height / tileSize;
+        let ship = { x: 280, y: 350, width: 40, height: 40, speed: 5 };
+        let bullets = [];
+        let asteroids = [];
+        let score = 0;
 
-        let pacman = { x: 5, y: 5, dx: 1, dy: 0 };
-        let food = { x: 10, y: 10 };
+        function drawShip() {
+            ctx.fillStyle = "cyan";
+            ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
+        }
 
-        function drawPacman(x, y) {
+        function drawBullets() {
             ctx.fillStyle = "yellow";
-            ctx.beginPath();
-            ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 2, 0.2 * Math.PI, 1.8 * Math.PI);
-            ctx.lineTo(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2);
-            ctx.fill();
+            bullets.forEach((bullet, index) => {
+                bullet.y -= bullet.speed;
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                if (bullet.y < 0) bullets.splice(index, 1);
+            });
         }
 
-        function drawFood(x, y) {
+        function drawAsteroids() {
             ctx.fillStyle = "red";
-            ctx.beginPath();
-            ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 4, 0, 2 * Math.PI);
-            ctx.fill();
+            asteroids.forEach((asteroid, index) => {
+                asteroid.y += asteroid.speed;
+                ctx.fillRect(asteroid.x, asteroid.y, asteroid.width, asteroid.height);
+                if (asteroid.y > canvas.height) asteroids.splice(index, 1);
+            });
         }
 
-        function update() {
-            pacman.x += pacman.dx;
-            pacman.y += pacman.dy;
-
-            if (pacman.x < 0) pacman.x = cols - 1;
-            if (pacman.x >= cols) pacman.x = 0;
-            if (pacman.y < 0) pacman.y = rows - 1;
-            if (pacman.y >= rows) pacman.y = 0;
-
-            if (pacman.x === food.x && pacman.y === food.y) {
-                food.x = Math.floor(Math.random() * cols);
-                food.y = Math.floor(Math.random() * rows);
-            }
+        function detectCollisions() {
+            bullets.forEach((bullet, bIndex) => {
+                asteroids.forEach((asteroid, aIndex) => {
+                    if (
+                        bullet.x < asteroid.x + asteroid.width &&
+                        bullet.x + bullet.width > asteroid.x &&
+                        bullet.y < asteroid.y + asteroid.height &&
+                        bullet.y + bullet.height > asteroid.y
+                    ) {
+                        bullets.splice(bIndex, 1);
+                        asteroids.splice(aIndex, 1);
+                        score++;
+                    }
+                });
+            });
         }
 
-        function draw() {
+        function drawScore() {
+            ctx.fillStyle = "white";
+            ctx.font = "16px Arial";
+            ctx.fillText("Puntaje: " + score, 10, 20);
+        }
+
+        function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawPacman(pacman.x, pacman.y);
-            drawFood(food.x, food.y);
+            drawShip();
+            drawBullets();
+            drawAsteroids();
+            detectCollisions();
+            drawScore();
+            requestAnimationFrame(gameLoop);
         }
 
-        function loop() {
-            update();
-            draw();
-            setTimeout(loop, 150);
+        function spawnAsteroids() {
+            setInterval(() => {
+                asteroids.push({
+                    x: Math.random() * (canvas.width - 20),
+                    y: 0,
+                    width: 30,
+                    height: 30,
+                    speed: 2 + Math.random() * 2
+                });
+            }, 1000);
         }
 
-        window.addEventListener("keydown", function (e) {
-            if (e.key === "ArrowUp" && pacman.dy === 0) { pacman.dx = 0; pacman.dy = -1; }
-            if (e.key === "ArrowDown" && pacman.dy === 0) { pacman.dx = 0; pacman.dy = 1; }
-            if (e.key === "ArrowLeft" && pacman.dx === 0) { pacman.dx = -1; pacman.dy = 0; }
-            if (e.key === "ArrowRight" && pacman.dx === 0) { pacman.dx = 1; pacman.dy = 0; }
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft" && ship.x > 0) ship.x -= ship.speed;
+            if (e.key === "ArrowRight" && ship.x < canvas.width - ship.width) ship.x += ship.speed;
+            if (e.key === " ") bullets.push({ x: ship.x + 15, y: ship.y, width: 5, height: 10, speed: 5 });
         });
 
-        loop();
+        spawnAsteroids();
+        gameLoop();
     </script>
 </body>
 </html>

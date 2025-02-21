@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man Simple</title>
+    <style>
+        canvas {
+            background-color: black;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const tileSize = 20;
+        const cols = canvas.width / tileSize;
+        const rows = canvas.height / tileSize;
+
+        let pacman = { x: 5, y: 5, dx: 1, dy: 0 };
+        let food = { x: 10, y: 10 };
+
+        function drawPacman(x, y) {
+            ctx.fillStyle = "yellow";
+            ctx.beginPath();
+            ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 2, 0.2 * Math.PI, 1.8 * Math.PI);
+            ctx.lineTo(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2);
+            ctx.fill();
+        }
+
+        function drawFood(x, y) {
+            ctx.fillStyle = "red";
+            ctx.beginPath();
+            ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 4, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function update() {
+            pacman.x += pacman.dx;
+            pacman.y += pacman.dy;
+
+            if (pacman.x < 0) pacman.x = cols - 1;
+            if (pacman.x >= cols) pacman.x = 0;
+            if (pacman.y < 0) pacman.y = rows - 1;
+            if (pacman.y >= rows) pacman.y = 0;
+
+            if (pacman.x === food.x && pacman.y === food.y) {
+                food.x = Math.floor(Math.random() * cols);
+                food.y = Math.floor(Math.random() * rows);
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPacman(pacman.x, pacman.y);
+            drawFood(food.x, food.y);
+        }
+
+        function loop() {
+            update();
+            draw();
+            setTimeout(loop, 150);
+        }
+
+        window.addEventListener("keydown", function (e) {
+            if (e.key === "ArrowUp" && pacman.dy === 0) { pacman.dx = 0; pacman.dy = -1; }
+            if (e.key === "ArrowDown" && pacman.dy === 0) { pacman.dx = 0; pacman.dy = 1; }
+            if (e.key === "ArrowLeft" && pacman.dx === 0) { pacman.dx = -1; pacman.dy = 0; }
+            if (e.key === "ArrowRight" && pacman.dx === 0) { pacman.dx = 1; pacman.dy = 0; }
+        });
+
+        loop();
+    </script>
+</body>
+</html>
